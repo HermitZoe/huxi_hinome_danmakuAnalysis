@@ -3710,6 +3710,8 @@ button:disabled{color:#b7c0ca;cursor:default}
 .srctable th,.srctable td{border-bottom:1px solid #edf1f5;padding:6px 6px;vertical-align:top;text-align:left}
 .srctable th{width:96px;color:var(--muted);font-weight:500;white-space:nowrap}
 .srctable code{font-size:11px;word-break:break-all}
+.tipbar{background:#eaf1f8;border:1px solid #d3e0ee;color:#2f5d8a;font-size:12.5px;padding:9px 14px;border-radius:6px;margin-bottom:14px}
+.tipbar strong{color:#1f3a5f}
 .callegend{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:11px;color:var(--muted);margin:6px 0 2px}
 .callegend i{display:inline-block;width:11px;height:11px;border-radius:2px;vertical-align:-1px;margin-right:4px;border:1px solid #dde3ea}
 .sw-none{background:#ffffff}.sw-missing{background:#fff3bf}.sw-zero{background:#ebedf0}
@@ -3723,6 +3725,7 @@ button:disabled{color:#b7c0ca;cursor:default}
 <p>目标用户：呼吸了空气对不起（UID 477202）｜主播：火羽ひのめ（UID 2094031249）｜2021-02-01 账号起点（首条动态）｜2021-06-07 首条视频｜2021-08-19 已知最早录播｜归档 2021-10-02 至 2026-11-14（2023-09-01 至 2025-07-26 未收录）｜剔除【】同传后 12,592 条</p>
 </header>
 <main>
+<div class="tipbar"><strong>图表交互：</strong>所有图表均可拖拽框选放大，双击图表恢复全览；热力图按年份独立缩放。</div>
 <section id="topSection">
 <div class="panel">
 <div class="panel-head"><h2>每日发言热力图</h2><span class="hint">统计本人发言（弹幕+SC）；2021-02-01 至 2021-10-01 及 2023-09-01 至 2025-07-26 归档缺失；悬停查看明细</span></div>
@@ -3987,7 +3990,7 @@ function kpis(rs){
   ];
   $('kpis').innerHTML=cards.map(c=>`<div class="kpi"><div class="v">${c[1]}</div><div class="l">${c[0]}</div></div>`).join('');
 }
-const BASE_LAYOUT={margin:{l:45,r:45,t:40,b:60},font:{family:'Microsoft YaHei, sans-serif',size:11},paper_bgcolor:'#fff',plot_bgcolor:'#fff',legend:{orientation:'h',y:1.12,x:0}};
+const BASE_LAYOUT={margin:{l:45,r:45,t:40,b:60},font:{family:'Microsoft YaHei, sans-serif',size:11},paper_bgcolor:'#fff',plot_bgcolor:'#fff',legend:{orientation:'h',y:1.12,x:0},dragmode:'zoom'};
 const SESS=JSON.parse(document.getElementById('sessionData').textContent);
 const MONTHS=(()=>{const a=[];for(let y=2021;y<=2026;y++){for(let m=1;m<=12;m++){if((y===2021&&m<10)||(y===2026&&m>11))continue;a.push(`${y}-${String(m).padStart(2,'0')}`)}}return a})();
 const GAP={start:'2023-09-01',end:'2025-07-27',mid:'2024-08-14',label:'归档缺失<br>2023-09-01 至 2025-07-26<br>数据网站未收录'};
@@ -4041,10 +4044,10 @@ function renderCalendar(){
     const vals=[],texts=[];
     for(let m=0;m<12;m+=2){const d=new Date(Date.UTC(y,m,1));const w=Math.floor((d-start)/86400000/7);if(w>=0&&w<weeks){vals.push(w);texts.push(String(m+1).padStart(2,'0')+'月')}}
     Plotly.newPlot(plot,[{z:z,x:Array.from({length:weeks},(_,i)=>i),y:['周一','周二','周三','周四','周五','周六','周日'],type:'heatmap',colorscale:colors,zmin:-2,zmax:4,xgap:2,ygap:3,hoverongaps:false,customdata:custom,hovertemplate:'%{customdata}<extra></extra>',showscale:false}],
-      {margin:{l:32,r:8,t:6,b:24},height:150,font:{family:'Microsoft YaHei, sans-serif',size:9},paper_bgcolor:'#fff',plot_bgcolor:'#fff',
+      {margin:{l:32,r:8,t:6,b:24},height:150,font:{family:'Microsoft YaHei, sans-serif',size:9},paper_bgcolor:'#fff',plot_bgcolor:'#fff',dragmode:'zoom',
        xaxis:{tickmode:'array',tickvals:vals,ticktext:texts,range:[-0.5,weeks-0.5],showgrid:false,zeroline:false,tickfont:{size:8}},
        yaxis:{tickmode:'array',tickvals:[0,1,2,3,4,5,6],ticktext:['周一','周二','周三','周四','周五','周六','周日'],autorange:'reversed',showgrid:false,tickfont:{size:8}}},
-      {displayModeBar:false});
+      {displayModeBar:false,doubleClick:'reset'});
   });
 }
 function renderPhaseTimeline(){
@@ -4080,11 +4083,11 @@ function renderPhaseTimeline(){
   Plotly.newPlot('phaseTimeline',traces,{
     margin:{l:20,r:20,t:76,b:48},height:240,
     font:{family:'Microsoft YaHei, sans-serif',size:11},
-    paper_bgcolor:'#fff',plot_bgcolor:'#fff',showlegend:false,barmode:'overlay',
+    paper_bgcolor:'#fff',plot_bgcolor:'#fff',showlegend:false,barmode:'overlay',dragmode:'zoom',
     xaxis:{type:'date',range:['2021-01-15','2026-12-31'],tickformat:'%Y-%m',dtick:'M12',title:{text:'时间'}},
     yaxis:{range:[-1.0,1.5],visible:false},
     annotations:[baseAnn].concat(hoverAnns)
-  },{displayModeBar:false});
+  },{displayModeBar:false,doubleClick:'reset'});
   const gd=$('phaseTimeline');
   let cur=-1;
   function showHover(i){
@@ -4112,24 +4115,24 @@ function renderTrend(rs){
   Plotly.react('chartTrend',[
     {x:ms.map(x=>x.m),y:ms.map(x=>x.n),type:'bar',name:'发言数',marker:{color:'#9DB7D5'},yaxis:'y'},
     {x:ms.map(x=>x.m),y:ms.map(x=>x.share),type:'scatter',mode:'lines+markers',name:'指向主播占比（%）',line:{color:'#C8462B',width:1.8},marker:{size:4},yaxis:'y2'}
-  ],{...BASE_LAYOUT,margin:{l:45,r:45,t:36,b:78},yaxis:{title:{text:'发言数'}},yaxis2:{title:{text:'占比（%）'},overlaying:'y',side:'right',range:[0,100]},xaxis:{...TREND_XAXIS},shapes:gapShapes(),annotations:gapAnnotations()},{displayModeBar:false});
+  ],{...BASE_LAYOUT,margin:{l:45,r:45,t:36,b:78},yaxis:{title:{text:'发言数'}},yaxis2:{title:{text:'占比（%）'},overlaying:'y',side:'right',range:[0,100]},xaxis:{...TREND_XAXIS},shapes:gapShapes(),annotations:gapAnnotations()},{displayModeBar:false,doubleClick:'reset'});
 }
 function renderValence(rs){
   const phases=['P1','P2','P3'].filter(p=>!SEL.phase.size||SEL.phase.has(p)), cats=[-2,-1,0,1,2], names=['−2 强烈负面','−1 轻微负面','0 中性','+1 轻微正面','+2 强烈正面'], colors=['#B2182B','#EF8A62','#D9D9D9','#A6DBA0','#1B7837'];
   const traces=cats.map((c,i)=>({x:phases,y:phases.map(p=>{const a=rs.filter(r=>r.p===p); return a.length?100*a.filter(r=>r.v===c).length/a.length:0;}),type:'bar',name:names[i],marker:{color:colors[i]}}));
-  Plotly.react('chartValence',traces,{...BASE_LAYOUT,margin:{l:45,r:25,t:36,b:98},legend:{orientation:'h',y:-0.28,x:0},barmode:'stack',yaxis:{title:{text:'占比（%）'},range:[0,105]},xaxis:{title:{text:'阶段'}}},{displayModeBar:false});
+  Plotly.react('chartValence',traces,{...BASE_LAYOUT,margin:{l:45,r:25,t:36,b:98},legend:{orientation:'h',y:-0.28,x:0},barmode:'stack',yaxis:{title:{text:'占比（%）'},range:[0,105]},xaxis:{title:{text:'阶段'}}},{displayModeBar:false,doubleClick:'reset'});
 }
 function renderAct(rs){
   const phases=['P1','P2','P3'].filter(p=>!SEL.phase.size||SEL.phase.has(p)), cats=['赞美示好','玩笑调侃','批评抱怨','中性信息','恶意语言','其他'], colors=['#4C78A8','#F58518','#E45756','#BAB0AC','#7B1E1E','#9D755D'];
   const traces=cats.map((c,i)=>({x:phases,y:phases.map(p=>{const a=rs.filter(r=>r.p===p); return a.length?100*a.filter(r=>r.a===c).length/a.length:0;}),type:'bar',name:c,marker:{color:colors[i]}}));
-  Plotly.react('chartAct',traces,{...BASE_LAYOUT,margin:{l:45,r:25,t:36,b:98},legend:{orientation:'h',y:-0.25,x:0},barmode:'stack',yaxis:{title:{text:'占比（%）'},range:[0,105]},xaxis:{title:{text:'阶段'}}},{displayModeBar:false});
+  Plotly.react('chartAct',traces,{...BASE_LAYOUT,margin:{l:45,r:25,t:36,b:98},legend:{orientation:'h',y:-0.25,x:0},barmode:'stack',yaxis:{title:{text:'占比（%）'},range:[0,105]},xaxis:{title:{text:'阶段'}}},{displayModeBar:false,doubleClick:'reset'});
 }
 function renderVTrend(rs){
   const ms=monthly(rs).map(x=>({...x, v:(x.n===null||x.n<5)?null:x.v, vs:(x.n===null||x.n<5)?null:x.vs}));
   Plotly.react('chartVTrend',[
     {x:ms.map(x=>x.m),y:ms.map(x=>x.v),type:'scatter',mode:'lines+markers',name:'全部发言',line:{color:'#4C78A8',width:1.4},marker:{size:3},connectgaps:false},
     {x:ms.map(x=>x.m),y:ms.map(x=>x.vs),type:'scatter',mode:'lines+markers',name:'指向主播',line:{color:'#54A24B',width:1.6},marker:{size:3},connectgaps:false}
-  ],{...BASE_LAYOUT,margin:{l:45,r:45,t:36,b:78},yaxis:{title:{text:'平均效价（−2…+2）'},range:[-0.5,1.2]},xaxis:{...TREND_XAXIS},shapes:gapShapes(),annotations:gapAnnotations()},{displayModeBar:false});
+  ],{...BASE_LAYOUT,margin:{l:45,r:45,t:36,b:78},yaxis:{title:{text:'平均效价（−2…+2）'},range:[-0.5,1.2]},xaxis:{...TREND_XAXIS},shapes:gapShapes(),annotations:gapAnnotations()},{displayModeBar:false,doubleClick:'reset'});
 }
 function renderTable(rs){
   const total=rs.length, pages=Math.max(1,Math.ceil(total/PAGE));
