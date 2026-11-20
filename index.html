@@ -3694,9 +3694,6 @@ button:disabled{color:#b7c0ca;cursor:default}
 .calgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .calcell{background:#fff;border:1px solid #f0f3f6;border-radius:4px;padding:4px 6px}
 .caltitle{font-size:12px;font-weight:600;color:var(--ink);margin-bottom:2px}
-.heat-tabs{display:flex;gap:6px;flex-wrap:wrap}
-.heat-tab{padding:4px 12px;border:1px solid var(--line);background:#fff;border-radius:4px;font-size:12px;cursor:pointer;color:var(--ink)}
-.heat-tab.active{background:var(--blue);border-color:var(--blue);color:#fff}
 .hintline{font-size:12px;color:var(--muted);margin:0 0 8px}
 @media(max-width:960px){.calgrid{grid-template-columns:1fr}}
 .linkbtn{margin-top:6px;background:none;border:none;color:var(--blue);padding:0;font-size:12px;cursor:pointer;text-decoration:underline}
@@ -3722,7 +3719,6 @@ button:disabled{color:#b7c0ca;cursor:default}
 .callegend{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:11px;color:var(--muted);margin:6px 0 2px}
 .callegend i{display:inline-block;width:11px;height:11px;border-radius:2px;vertical-align:-1px;margin-right:4px;border:1px solid #dde3ea}
 .sw-none{background:#ffffff}.sw-missing{background:#fff3bf}.sw-zero{background:#ebedf0}
-.sw-guard{background:#4A90E2}.sw-infer{background:#8FB8DE}.sw-admiral{background:#9B59B6}.sw-governor{background:#D4A017}.sw-notguard{background:#f7f7f7}.sw-gmiss{background:#e6e6e6}.sw-out{background:#ffffff}
 .sw-l1{background:#9be9a8}.sw-l2{background:#40c463}.sw-l3{background:#30a14e}.sw-l4{background:#216e39}
 @media(max-width:960px){.kpis{grid-template-columns:repeat(3,1fr)}.grid2{grid-template-columns:1fr}}
 </style>
@@ -3730,16 +3726,13 @@ button:disabled{color:#b7c0ca;cursor:default}
 <body>
 <header>
 <h1>火羽直播间发言情感分析</h1>
-<p>目标用户：呼吸了空气对不起（主号 UID 477202；小号 UID 2835288、1982210004）｜主播：火羽ひのめ（UID 2094031249）｜2021-02-01 账号起点（首条动态）｜2021-06-07 首条视频｜2021-08-19 已知最早录播｜归档 2021-10-02 至 2026-11-16（2023-09-01 至 2025-07-26 未收录）｜三账号合并，剔除【】同传后 13,180 条</p>
+<p>目标用户：呼吸了空气对不起（主号 UID 477202；小号 UID 2835288、1982210004）｜主播：火羽ひのめ（UID 2094031249）｜2021-02-01 账号起点（首条动态）｜2021-06-07 首条视频｜2021-08-19 已知最早录播｜归档 2021-10-02 至 2026-11-16（2023-09-01 至 2025-07-26 未收录）｜三账号合并，剔除【】同传后 14,242 条</p>
 </header>
 <main>
 <div class="tipbar"><strong>图表交互：</strong>所有图表均可拖拽框选放大，双击图表恢复全览；热力图按年份独立缩放。</div>
 <section id="topSection">
 <div class="panel" id="heatPanel">
-<div class="panel-head"><h2>每日热力图</h2><div class="heat-tabs">
-<button type="button" class="heat-tab active" data-view="activity">发言热力图</button>
-<button type="button" class="heat-tab" data-view="guard">在舰热力图</button>
-</div></div>
+<div class="panel-head"><h2>每日热力图</h2></div>
 <div id="viewActivity">
 <div class="hintline">统计三账号发言（弹幕+SC）；2021-02-01 至 2021-10-01 及 2023-09-01 至 2025-07-26 归档缺失；悬停查看明细</div>
 <div id="calendarGrid" class="calgrid"></div>
@@ -3752,24 +3745,10 @@ button:disabled{color:#b7c0ca;cursor:default}
 <span><i class="sw-l3"></i>101–300</span>
 <span><i class="sw-l4"></i>300+</span>
 </div>
-<button id="toggleSessions" class="linkbtn">展开全部 441 场明细</button>
+<button id="toggleSessions" class="linkbtn">展开全部 471 场明细</button>
 <div id="sessionTableWrap" style="display:none">
 <table><thead><tr><th>日期</th><th>场次</th><th>标题</th><th>类型</th><th>弹幕</th><th>SC</th><th>合计</th></tr></thead><tbody id="sessionTbody"></tbody></table>
 </div>
-</div>
-<div id="viewGuard" style="display:none">
-<div class="hintline">蓝色为有记录的舰长、浅蓝为推定连续舰长、紫色为提督、金色为总督；灰色为归档缺失；截至 2026-11-16 有记录 542 天，含推定连续至少 1,052 天</div>
-<div id="guardCalendar" class="calgrid"></div>
-<div class="callegend">
-<span><i class="sw-guard"></i>舰长（有记录）</span>
-<span><i class="sw-infer"></i>舰长（推定连续）</span>
-<span><i class="sw-admiral"></i>提督</span>
-<span><i class="sw-governor"></i>总督</span>
-<span><i class="sw-notguard"></i>无在舰记录</span>
-<span><i class="sw-gmiss"></i>归档缺失</span>
-<span><i class="sw-out"></i>观测期外</span>
-</div>
-<div class="chartnote">按日着色：深蓝为有扣费记录的舰长，浅蓝为推定连续舰长，紫色为提督，金色为总督；白色为无在舰记录（不必然等于确认不在舰），灰色为归档缺失（2021-02-01 至 2021-10-01、2023-09-01 至 2025-07-26）。舰长单月新开 198 元，立即续费或过期保籍 168 元；连续包月原为 138 元，2024-07-11 起新开或中断后为 168 元，未中断的老用户仍为 138 元。2022-08-21 的 474 元（198+138+138）按 90 天计，有记录的舰长共 540 天。<br><br>推定依据：B 站自 2024-07-11 起把单月立即续费与过期保籍价格上调至 168 元，138 元只保留给未中断的连续包月老用户；2025-11-12 00:00:42 的续费仍为 138 元，且时间点、30 天周期与自动续费一致。按 30 天周期向前回溯，这条未中断的连续链最晚可追溯到 2024-06-20，实际起点可能更早但公开记录无法确定，故把 2024-06-20 至 2025-11-12 的 510 天标为浅蓝。该推断不适用于 2024-07-11 之前：当时 138 元仍可通过开通并取消连续包月获得，2022–2023 年的多次断档不能据 138 元价格否定。2025-12-12 之后没有逐月扣费记录，未作连续性推定。<br><br>2026-11-15 05:56:47 开通提督（1998 元，se-barrier.top 记录），按 30 天计至 2026-12-15 05:56；截至 2026-11-16 已发生 2 天，图中仅显示到今天，不显示未来日期。有记录 540 天舰长 + 2 天提督 = 542 天；加上 510 天推定连续舰长，至少 1,052 天。</div>
 </div>
 </div>
 </section>
@@ -3811,23 +3790,23 @@ button:disabled{color:#b7c0ca;cursor:default}
 <p><strong>标注规范。</strong>效价 v：−2 强烈负面、−1 轻微负面、0 中性或无法判断、+1 轻微正面、+2 强烈正面。指向 t：主播、直播内容、自己、他人、无；只有明确评价主播本人才计入“主播”，批评游戏、剧情、设备归“直播内容”。语用 a：赞美示好、玩笑调侃、批评抱怨、中性信息、恶意语言、其他。恶意语言指以事实/确定语气宣示现实亲密关系、性化或物化、侮辱贬低、威胁伤害。</p>
 <p><strong>语境。</strong>每条消息附带场次标题与前 2 条发言，前后顺序按本页显示顺序；【】内为主播发言的同声传译，仅作语境，不标注、不计入统计。</p>
 <p><strong>一致性。</strong>300 条分层双标注：效价二次加权 Kappa 0.581，指向 0.642，语用 0.666。效价完全一致率 69.0%，指向 75.0%，语用 82.3%。</p>
-<p><strong>解释边界。</strong>三账号合并为同一人分析，但仍属单一个体、观察性数据；场次类型由标题推断；P3 仅 432 条；主号 300 条双标注；新增小号语料 284 条，另对 267 条【( 自述重标，均为单遍标注；同一模型双标注，Kappa 反映提示词稳定性，不等同于人际标注一致性。</p>
+<p><strong>解释边界。</strong>三账号合并为同一人分析，但仍属单一个体、观察性数据；场次类型由标题推断；P3 仅 432 条；主号 300 条双标注；新增小号语料 284 条、276 条【( 自述、1,206 条 XML 补录语料，均为单遍标注；同一模型双标注，Kappa 反映提示词稳定性，不等同于人际标注一致性。</p>
 </div>
 
 <div class="panel" id="dataSource">
 <div class="panel-head"><h2>数据来源与采集说明</h2><span class="hint">公开归档数据，非 B 站官方接口</span></div>
-<p>本页弹幕数据来自 laplace.live 的公开直播归档，三个账号分别抓取：主号 477202、小号1 2835288、小号2 1982210004；接口为 <code>ukamnads.icu/api/v3/users/&lt;UID&gt;/history</code>。采集时间为 2026-11-20（数据截至 2026-11-16，UTC+8）。主号 2026-11-11 至 11-15 的 19 条发言因 laplace 漏采，补充自 se-barrier.top 的公屏记录；两个小号只保留火羽直播间（房间 22748536）的记录。</p>
+<p>本页弹幕数据来自 laplace.live 的公开直播归档，三个账号分别抓取：主号 477202、小号1 2835288、小号2 1982210004；接口为 <code>ukamnads.icu/api/v3/users/&lt;UID&gt;/history</code>。采集时间为 2026-11-20（数据截至 2026-11-16，UTC+8）。主号 2026-11-11 至 11-15 的 19 条发言因 laplace 漏采，补充自 se-barrier.top 的公屏记录；两个小号只保留火羽直播间（房间 22748536）的记录。2022-02-26 至 2022-07-21 的 43 场由 F:\火羽录播 的 BililiveRecorder XML 补入，按时间窗与既有场次匹配、重叠处按时间与内容去重后合并。</p>
 <table class="srctable">
 <tr><th>采集对象</th><td>呼吸了空气对不起：主号 UID 477202；小号1 UID 2835288（ひの呼吸）；小号2 UID 1982210004（火羽ひのめOfficial）</td></tr>
 <tr><th>主播</th><td>火羽ひのめ（B站 UID 2094031249，房间号 22748536）</td></tr>
 <tr><th>时间范围</th><td>2021-10-02 至 2026-11-16（UTC+8）</td></tr>
-<tr><th>原始记录</th><td>441 场，37,848 条有文字的记录（普通弹幕 37,735 条，SC 113 条）</td></tr>
-<tr><th>分析语料</th><td>三账号合并，剔除 24,668 条纯【】同传、去括号后无实义或纯符号消息后，保留 13,180 条表达：主号 12,896 条、小号1 218 条、小号2 66 条。以【( 或【（开头的 267 条按自述保留并纳入分析；小号1 仍以同传为主。</td></tr>
-<tr><th>场次口径</th><td>441 场；S001–S422 为主号原始场次，S423–S428 由小号历史补入，S429–S441 由 BililiveRecorder XML 补入；其中 10 场只有礼物/进场等无文字事件。月度场次图按全部 441 场统计，热力图按三账号弹幕与 SC 条数统计。</td></tr>
+<tr><th>原始记录</th><td>471 场，38,919 条有文字的记录（普通弹幕 38,795 条，SC 124 条）</td></tr>
+<tr><th>分析语料</th><td>三账号合并，剔除 24,677 条纯【】同传、去括号后无实义或纯符号消息后，保留 14,242 条表达：主号 13,958 条、小号1 218 条、小号2 66 条。原始记录中以【( 或【（开头的自述共 289 条，其中 276 条去括号后保留内文并纳入分析；小号1 仍以同传为主。</td></tr>
+<tr><th>场次口径</th><td>471 场；S001–S422 为主号原始场次，S423–S428 由小号历史补入，S429–S471 由 BililiveRecorder XML 补入（共 43 场）；其中 10 场只有礼物/进场等无文字事件。月度场次图按全部 471 场统计，热力图按三账号弹幕与 SC 条数统计。</td></tr>
 <tr><th>已知限制</th><td>接口 total 字段为 1,133 场，实际可取回 1,130 场，差额 3 场无法确认归属；仅覆盖平台已归档场次，已删除或撤回的弹幕不可恢复；三账号合并为同一人分析，但不构成独立个体样本。</td></tr>
 <tr><th>排序口径</th><td>同一分钟内的消息按直播公屏顺序排列；跨账号同分钟按公屏记录位置。主号与小号同分钟重叠的 6 场使用该场完整公屏排序；其余场次无跨账号重叠。S419、S422 的 19 条 se-barrier 补充记录不在 laplace 公屏中，保留补充来源的原顺序。</td></tr>
 </table>
-<p class="note">最后更新：2026-11-20。</p>
+<p class="note">最后更新：2026-11-21。</p>
 </div>
 </main>
 
@@ -3844,7 +3823,7 @@ const FILTER_DEFS=[
   {k:'target',label:'指向对象',opts:[['主播','主播'],['直播内容','直播内容'],['自己','自己'],['他人','他人'],['无','无']]},
   {k:'act',label:'语用类型',opts:[['赞美示好','赞美示好'],['玩笑调侃','玩笑调侃'],['批评抱怨','批评抱怨'],['中性信息','中性信息'],['恶意语言','恶意语言'],['其他','其他']]},
   {k:'st',label:'场次类型',opts:[['杂谈','杂谈'],['游戏','游戏'],['活动','活动'],['联动','联动'],['歌回','歌回'],['其他','其他']]},
-  {k:'v',label:'效价',opts:[['pos','正面（>0）'],['neg','负面（<0）'],['zero','中性（=0）']]}
+  {k:'v',label:'效价',opts:[['-2','−2 强烈负面'],['-1','−1 轻微负面'],['0','0 中性'],['1','+1 轻微正面'],['2','+2 强烈正面']]}
 ];
 const SEL=Object.fromEntries(FILTER_DEFS.map(d=>[d.k,new Set()]));
 const DATE_MIN='2021-10-02', DATE_MAX='2026-11-16';
@@ -4006,10 +3985,7 @@ function filtered(){
     if(SEL.target.size && !SEL.target.has(r.t)) return false;
     if(SEL.act.size && !SEL.act.has(r.a)) return false;
     if(SEL.st.size && !SEL.st.has(r.st)) return false;
-    if(SEL.v.size){
-      const ok=(SEL.v.has('pos')&&r.v>0)||(SEL.v.has('neg')&&r.v<0)||(SEL.v.has('zero')&&r.v===0);
-      if(!ok) return false;
-    }
+    if(SEL.v.size && !SEL.v.has(String(r.v))) return false;
     if(q && !(r.x.toLowerCase().includes(q) || (r.z||'').toLowerCase().includes(q))) return false;
     return true;
   });
@@ -4091,7 +4067,7 @@ function renderCalendar(){
 function renderPhaseTimeline(){
   const segs=[
     {k:'归档前',s:'2021-02-01',e:'2021-10-01',c:'#f2c94c',tc:'#4a3b00',label:'归档前<br>发言未收录',note:'首条动态 2021-02-01，首条视频 2021-06-07，已知最早录播 2021-08-19'},
-    {k:'P1',s:'2021-10-02',e:'2022-10-14',c:'#4C78A8',tc:'#ffffff',label:'P1<br>249 场 · 9,072 条',note:'249 场，9,072 条'},
+    {k:'P1',s:'2021-10-02',e:'2022-10-14',c:'#4C78A8',tc:'#ffffff',label:'P1<br>292 场 · 10,297 条',note:'292 场，10,297 条'},
     {k:'P2',s:'2022-10-15',e:'2023-08-31',c:'#F58518',tc:'#3d2600',label:'P2<br>126 场 · 3,513 条',note:'126 场，3,513 条'},
     {k:'归档缺失',s:'2023-09-01',e:'2025-07-26',c:'#BAB0AC',tc:'#3d3d3d',label:'归档缺失<br>数据网站未收录',note:'数据网站未收录该时段的直播数据'},
     {k:'无发言记录',s:'2025-07-27',e:'2025-08-31',c:'#DCDCDC',tc:'#4a4a4a',label:'',note:'归档已恢复，本人无发言记录'},
@@ -4139,71 +4115,13 @@ function renderPhaseTimeline(){
   });
   gd.on('plotly_unhover',()=>showHover(-1));
 }
-function renderGuardCalendar(){
-  const grid=document.getElementById('guardCalendar');grid.innerHTML='';
-  const years=[2021,2022,2023,2024,2025,2026];
-  const T={1:'舰长',2:'提督',3:'总督',4:'舰长（推定连续）'};
-  const ivs=[
-    ['2021-10-12','2021-11-11',1],
-    ['2022-01-24','2022-02-23',1],
-    ['2022-02-28','2022-05-29',1],
-    ['2022-06-16','2023-01-12',1],
-    ['2023-01-21','2023-02-20',1],
-    ['2023-03-08','2023-04-07',1],
-    ['2023-05-08','2023-06-07',1],
-    ['2023-06-12','2023-08-11',1],
-    ['2024-06-20','2025-11-12',4],
-    ['2025-11-12','2025-12-12',1],
-    ['2026-11-15','2026-12-15',2]
-  ].map(([a,b,l])=>[new Date(a+'T00:00:00Z').getTime(),new Date(b+'T00:00:00Z').getTime(),l]);
-  const colors=[[0,'#ffffff'],[0.1666,'#ffffff'],[0.1667,'#e6e6e6'],[0.3332,'#e6e6e6'],[0.3333,'#f7f7f7'],[0.4999,'#f7f7f7'],[0.5,'#4A90E2'],[0.6665,'#4A90E2'],[0.6666,'#9B59B6'],[0.8332,'#9B59B6'],[0.8333,'#D4A017'],[0.9998,'#D4A017'],[0.9999,'#8FB8DE'],[1,'#8FB8DE']];
-  const iso=d=>d.toISOString().slice(0,10);
-  const archiveStart='2021-10-02', gapStart='2023-09-01', gapEnd='2025-07-27', obsEnd=TODAY;
-  years.forEach(y=>{
-    const cell=document.createElement('div');cell.className='calcell';
-    const h=document.createElement('div');h.className='caltitle';
-    h.textContent=y+' 年'+(y===2024?'（6-20 起推定连续）':(y===2026?'（11-15 提督）':''));
-    cell.appendChild(h);
-    const plot=document.createElement('div');plot.style.height='150px';cell.appendChild(plot);grid.appendChild(cell);
-    const yStart=new Date(Date.UTC(y,0,1)), yEnd=new Date(Date.UTC(y,11,31));
-    const off=(yStart.getUTCDay()+6)%7;
-    const start=new Date(yStart);start.setUTCDate(start.getUTCDate()-off);
-    const weeks=Math.ceil(((yEnd-start)/86400000+1)/7);
-    const z=Array.from({length:7},()=>Array(weeks).fill(-2));
-    const custom=Array.from({length:7},()=>Array(weeks).fill(''));
-    for(let w=0;w<weeks;w++)for(let wd=0;wd<7;wd++){
-      const d=new Date(start);d.setUTCDate(d.getUTCDate()+w*7+wd);const key=iso(d);
-      if(key<'2021-02-01'){z[wd][w]=-2;custom[wd][w]=key+' · 观测期外（账号尚无内容）';continue;}
-      if(key<archiveStart){z[wd][w]=-1;custom[wd][w]=key+' · 归档缺失（是否在舰未知）';continue;}
-      if(key>obsEnd){z[wd][w]=-2;custom[wd][w]=key+' · 未来日期（不显示）';continue;}
-      const t=d.getTime();
-      const hit=ivs.find(([a,b])=>t>=a&&t<b);
-      if(hit){
-        z[wd][w]=hit[2];
-        custom[wd][w]=key+' · '+(hit[2]===4?'推定连续在舰（依据 138 元连续包月价格回溯，非直接记录）':'在舰（'+T[hit[2]]+'）');
-        continue;
-      }
-      if(key>=gapStart&&key<gapEnd){z[wd][w]=-1;custom[wd][w]=key+' · 归档缺失（是否在舰未知）';continue;}
-      z[wd][w]=0;custom[wd][w]=key+' · 无在舰记录（不必然等于确认不在舰）';
-    }
-    let maxWeek=weeks-1;
-    if(y===2026){const td=new Date(TODAY+'T00:00:00Z');maxWeek=Math.min(weeks-1,Math.floor((td-start)/86400000/7));}
-    const vals=[],texts=[];
-    for(let m=0;m<12;m+=2){const d=new Date(Date.UTC(y,m,1));const w=Math.floor((d-start)/86400000/7);if(w>=0&&w<=maxWeek){vals.push(w);texts.push(String(m+1).padStart(2,'0')+'月')}}
-    Plotly.newPlot(plot,[{z:z,x:Array.from({length:weeks},(_,i)=>i),y:['周一','周二','周三','周四','周五','周六','周日'],type:'heatmap',colorscale:colors,zmin:-2,zmax:4,xgap:2,ygap:3,hoverongaps:false,customdata:custom,hovertemplate:'%{customdata}<extra></extra>',showscale:false}],
-      {margin:{l:32,r:8,t:6,b:24},height:150,font:{family:'Microsoft YaHei, sans-serif',size:9},paper_bgcolor:'#fff',plot_bgcolor:'#fff',dragmode:'zoom',
-       xaxis:{tickmode:'array',tickvals:vals,ticktext:texts,range:[-0.5,maxWeek+0.5],showgrid:false,zeroline:false,tickfont:{size:8}},
-       yaxis:{tickmode:'array',tickvals:[0,1,2,3,4,5,6],ticktext:['周一','周二','周三','周四','周五','周六','周日'],autorange:'reversed',showgrid:false,tickfont:{size:8}}},
-      {displayModeBar:false,doubleClick:'reset'});
-  });
-}
 function renderSessionTable(){
   const tb=document.getElementById('sessionTbody');
   tb.innerHTML=SESS.map(s=>`<tr><td>${s.d}</td><td>${s.no}</td><td>${esc(s.t)}</td><td>${s.ty||''}</td><td>${s.dm}</td><td>${s.sc}</td><td>${s.n}</td></tr>`).join('');
 }
 document.getElementById('toggleSessions').addEventListener('click',()=>{
   const w=document.getElementById('sessionTableWrap');const open=w.style.display!=='none';
-  w.style.display=open?'none':'block';document.getElementById('toggleSessions').textContent=open?'展开全部 441 场明细':'收起场次明细';
+  w.style.display=open?'none':'block';document.getElementById('toggleSessions').textContent=open?`展开全部 ${SESS.length} 场明细`:'收起场次明细';
   if(!open&&!w.dataset.done){renderSessionTable();w.dataset.done='1';}
 });
 function renderTrend(rs){
@@ -4255,19 +4173,6 @@ function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>'
 function update(){
   view=filtered(); page=0; kpis(view); renderTrend(view); renderValence(view); renderAct(view); renderVTrend(view); renderTable(view);
 }
-let guardRendered=false;
-function showHeatView(v){
-  const act=v!=='guard';
-  $('viewActivity').style.display=act?'':'none';
-  $('viewGuard').style.display=act?'none':'';
-  document.querySelectorAll('.heat-tab').forEach(b=>b.classList.toggle('active',(b.dataset.view==='activity')===act));
-  if(act){document.querySelectorAll('#calendarGrid .js-plotly-plot').forEach(g=>Plotly.Plots.resize(g));}
-  else{
-    if(!guardRendered){renderGuardCalendar();guardRendered=true;}
-    document.querySelectorAll('#guardCalendar .js-plotly-plot').forEach(g=>Plotly.Plots.resize(g));
-  }
-}
-document.querySelectorAll('.heat-tab').forEach(b=>b.addEventListener('click',()=>showHeatView(b.dataset.view)));
 buildFilters();updateLabels();renderCalendar();renderPhaseTimeline();
 $('prev').addEventListener('click',()=>{if(page>0){page--;renderTable(view);}});
 $('next').addEventListener('click',()=>{if((page+1)*PAGE<view.length){page++;renderTable(view);}});
